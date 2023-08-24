@@ -13,13 +13,20 @@ class SingleInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.single_in_activity)
 
-        Log.d("login", "로그인 시도")
-
         val loginBtn = findViewById<Button>(R.id.login_btn)
         val joinBtn = findViewById<Button>(R.id.join_btn)
         val loginIdEditText = findViewById<EditText>(R.id.loginIdText)
         val loginPwEditText = findViewById<EditText>(R.id.loginPswText)
 
+
+        val resultIntent = Intent()
+        resultIntent.putExtra("id", "username" )
+        resultIntent.putExtra("password", "password")
+        setResult(RESULT_OK, resultIntent)
+        finish()
+
+
+        //로그인버튼 Id를 homepage에서 보기.
         loginBtn.setOnClickListener {
             val loginId = loginIdEditText.text.toString()
             val loginPw = loginPwEditText.text.toString()
@@ -31,8 +38,9 @@ class SingleInActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, HomeActivity::class.java)
-                intent.putExtra("dataFromSingleInActivity",loginId)
+                intent.putExtra("id", "username" )
                 startActivity(intent)
+
             }
         }
 
