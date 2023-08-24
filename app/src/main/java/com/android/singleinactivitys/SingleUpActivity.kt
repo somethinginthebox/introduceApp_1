@@ -39,7 +39,7 @@ class SingleUpActivity : AppCompatActivity() {
                 Toast.makeText(this, "회원가입성공!", Toast.LENGTH_SHORT).show()
 
                 val loginIntent = Intent(this, SingleInActivity::class.java)
-                loginIntent.putExtra("joinInputId", joinInputNameText)
+                loginIntent.putExtra("joinInputId", joinInputIdText)
                 loginIntent.putExtra("joinInputPw", joinInputPwText)
                 setResult(RESULT_OK, loginIntent)
                 finish()
