@@ -10,7 +10,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val IDData = intent.getStringExtra("dataFromSingleInActivity")
+        val IDData = intent.getStringExtra("id")
         val fromSingleInActivityId = findViewById<EditText>(R.id.fromSingleInActivityId)
         fromSingleInActivityId.setText(IDData)
 

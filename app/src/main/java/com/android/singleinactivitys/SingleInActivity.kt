@@ -7,8 +7,12 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 
 class SingleInActivity : AppCompatActivity() {
+
+    private lateinit var loginLauncher: ActivityResultLauncher<Intent>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.single_in_activity)
@@ -19,11 +23,16 @@ class SingleInActivity : AppCompatActivity() {
         val loginPwEditText = findViewById<EditText>(R.id.loginPswText)
 
 
-        val resultIntent = Intent()
-        resultIntent.putExtra("id", "username" )
-        resultIntent.putExtra("password", "password")
-        setResult(RESULT_OK, resultIntent)
-        finish()
+        //
+        loginLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    val reId = result.data?.getStringExtra("joinInputId") ?: ""
+                    val rePw = result.data?.getStringExtra("joinInputPw") ?: ""
+                    loginIdEditText.setText(reId)
+                    loginPwEditText.setText(rePw)
+                }
+            }
 
 
         //로그인버튼 Id를 homepage에서 보기.
@@ -38,21 +47,17 @@ class SingleInActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, HomeActivity::class.java)
-                intent.putExtra("id", "username" )
+                intent.putExtra("id", loginId)
                 startActivity(intent)
 
             }
         }
 
 
-
-
-
         joinBtn.setOnClickListener {
             val joinIntent = Intent(this, SingleUpActivity::class.java)
-            startActivity(joinIntent)
+            loginLauncher.launch(joinIntent)
         }
-
 
     }
 }
